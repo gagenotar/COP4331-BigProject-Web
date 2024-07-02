@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
+  font-family: 'Inter';
 }
 
 #register-div {
@@ -29,15 +30,10 @@
 }
 
 #subtitle p {
-  color: #2B2B2B;
+  color: #0C274E;
   text-align: center;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: bold;
-}
-
-#register-form input {
-  font-family: 'Inter';
 }
 
 #register-form button {
@@ -45,8 +41,7 @@
 }
 
 #login-redirect {
-  color: #2B2B2B;
-  font-family: 'Inter';
+  color: #0C274E;
   text-align: center;
   font-style: normal;
   font-weight: bold;

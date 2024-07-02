@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
+  font-family: 'Inter';
 }
 
 #login-div {
@@ -29,20 +30,14 @@
 }
 
 #subtitle p {
-  color: #2B2B2B;
+  color: #0C274E;
   text-align: center;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: bold;
 }
 
-#login-form input {
-  font-family: 'Inter';
-}
-
 #forgot-pass-redirect {
-    color: #2B2B2B;
-    font-family: 'Inter';
+    color: #0C274E;
     font-style: normal;
     font-weight: bold;
 }
@@ -57,8 +52,7 @@
 }
 
 #signup-redirect {
-  color: #2B2B2B;
-  font-family: 'Inter';
+  color: #0C274E;
   text-align: center;
   font-style: normal;
   font-weight: bold;
@@ -71,4 +65,12 @@
 #signup-redirect a {
   text-decoration: none;
   display: inline;
+}
+
+#loginResult {
+  color: rgb(255, 78, 78);
+  text-align: center;
+  font-style: normal;
+  font-weight: bold;
+  width: 100%;
 }

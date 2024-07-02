@@ -85,7 +85,7 @@ Request body
 
 Response
 {
-  _id: new id
+  id: new id
   login: username
 }
 */
@@ -96,7 +96,7 @@ app.post('/api/register', async (req, res) => {
   try {
     const db = client.db('journeyJournal');
     const result = await db.collection('user').insertOne(newUser);
-    res.status(200).json({_id: result.insertedId, login: login});
+    res.status(200).json({id: result.insertedId, login: login});
   } catch (e) {
     res.status(500).json({ error: e.toString() });
   }

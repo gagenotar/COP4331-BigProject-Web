@@ -22,13 +22,13 @@ const SignUp = () => {
             return 'http://localhost:3000/' + route;
         }
     }
-
-  var signUpFirstName;
-  var signUpLastName;
-  var signUpEmail;
-  var signUpLogin;
-  var signUpPassword;
-  const [message,setMessage] = useState('');
+    
+    const [signUpFirstName, setSignUpFirstName] = useState('');
+    const [signUpLastName, setSignUpLastName] = useState('');
+    const [signUpEmail, setSignUpEmail] = useState('');
+    const [signUpLogin, setSignUpLogin] = useState('');
+    const [signUpPassword, setSignUpPassword] = useState('');
+    const [message,setMessage] = useState('');
 
 
   const doSignUp = async event => 
@@ -37,11 +37,11 @@ const SignUp = () => {
 
         var obj = 
         {
-            firstName: signUpFirstName.value,
-            lastName: signUpLastName.value,
-            email: signUpEmail.value,
-            login: signUpLogin.value,
-            password: signUpPassword.value
+            firstName: signUpFirstName,
+            lastName: signUpLastName,
+            email: signUpEmail,
+            login: signUpLogin,
+            password: signUpPassword
         };
         var js = JSON.stringify(obj);
 
@@ -57,19 +57,22 @@ const SignUp = () => {
                     }
                 }
             );
+
+            alert('doIt() ' + signUpLogin.value + ' ' + signUpPassword.value );
+
+            // TODO: Enforce unique usernames
             
             var res = JSON.parse(await response.text());
 
             setMessage(JSON.stringify(res));
+
+            redirectTo('email-verification');
         }
         catch(e)
         {
             alert(e.toString());
             return;
         }
-
-        alert('doIt() ' + signUpLogin.value + ' ' + signUpPassword.value );
-        redirectTo('email-verification');
     };
 
     const redirectTo = (route) => {
@@ -94,24 +97,68 @@ const SignUp = () => {
                         <span id='subtitle'><p className='fs-5'>Sign up to post your adventures and share with friends.</p></span>
                     </div>
                 </div>
-                <form className='row justify-content-center' id='register-form'>
+                <form className='row justify-content-center' id='register-form' onSubmit={doSignUp}>
                     <div className='input-group input-group-sm col-sm-12 mb-3'>
-                        <input type="text" class="form-control" placeholder="First Name" ref={(c) => signUpFirstName = c}></input>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="First Name" 
+                            value={signUpFirstName}
+                            onChange={(e) => setSignUpFirstName(e.target.value)}
+                            maxlength="30"
+                        />
                     </div>
                     <div className='input-group input-group-sm col-sm-12 mb-3'>
-                        <input type="text" class="form-control" placeholder="Last Name" ref={(c) => signUpLastName = c}></input>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Last Name" 
+                            value={signUpLastName}
+                            onChange={(e) => setSignUpLastName(e.target.value)}
+                            maxlength="30"
+                        />
                     </div>
                     <div className='input-group input-group-sm col-sm-12 mb-3'>
-                        <input type="text" class="form-control" placeholder="Email Address" ref={(c) => signUpEmail = c}></input>
+                        <input 
+                            type="email" 
+                            className="form-control" 
+                            placeholder="Email Address*" 
+                            value={signUpEmail}
+                            onChange={(e) => setSignUpEmail(e.target.value)}
+                            maxlength="30"
+                            required 
+                            pattern="[A-Za-z0-9._-]+@[A-Za-z0-9.-]+\.[a-z]" 
+                            title="username@email.com"
+                        />
                     </div>
                     <div className='input-group input-group-sm col-sm-12 mb-3'>
-                        <input type="text" class="form-control" placeholder="Username" ref={(c) => signUpLogin = c}></input>
+                        <input 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Username*" 
+                            value={signUpLogin}
+                            onChange={(e) => setSignUpLogin(e.target.value)}
+                            maxlength="30"
+                            required
+                            pattern=".{4,}" 
+                            title="Username must be at least 4 characters"
+                        />
                     </div>
                     <div className='input-group input-group-sm col-sm-12 mb-3'>
-                        <input type="password" class="form-control" placeholder="Password" ref={(c) => signUpPassword = c}></input>
+                        <input 
+                            type="password" 
+                            className="form-control" 
+                            placeholder="Password*" 
+                            value={signUpPassword}
+                            onChange={(e) => setSignUpPassword(e.target.value)}
+                            maxlength="30"
+                            required 
+                            pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}" 
+                            title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special symbol (!@#$%^&*)"
+                        />
                     </div>
                     <div className='col-sm-12 mb-3'>
-                        <button type="submit" class="btn btn-primary" onClick={doSignUp}>Sign Up</button>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
                     </div>
                 </form>
                 <div className='row justify-content-center'>

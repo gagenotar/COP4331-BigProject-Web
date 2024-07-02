@@ -22,16 +22,16 @@ const Login = () => {
         }
     }
 
-    var email;
-    var password;
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    const doSignUp = async (event) => {
+    const doLogin = async (event) => {
         event.preventDefault();
 
         var obj = {
-            email: email.value,
-            password: password.value
+            email: email,
+            password: password
         };
         var js = JSON.stringify(obj);
 
@@ -44,18 +44,23 @@ const Login = () => {
                 }
             });
 
+            alert('doIt() ' + email + ' ' + password);
+
             var res = JSON.parse(await response.text());
 
-            setMessage(JSON.stringify(res));
+            if (!res.id) {
+                setMessage('User/Password combination incorrect');
+            }
+            else {
+                setMessage(JSON.stringify(res));
+                redirectTo('home');
+            }
+
         } catch (e) {
             alert(e.toString());
             return;
         }
-
-        alert('doIt() ' + email.value + ' ' + password.value);
-        redirectTo('home');
     };
-
 
     const redirectTo = (route) => {
         const path = buildPath(route);
@@ -79,27 +84,38 @@ const Login = () => {
                             <span id='subtitle'><p className='fs-5'>Enter your email to login.</p></span>
                         </div>
                     </div>
-                    <form className='row justify-content-center' id='login-form'>
+                    <form className='row justify-content-center' id='login-form' onSubmit={doLogin}>
                         <div className='input-group input-group-sm col-sm-12 mb-3'>
-                            <input type="text" className="form-control" placeholder="Email Address" ref={(c) => email = c}></input>
+                            <input 
+                                type="email" 
+                                className="form-control" 
+                                placeholder="Email Address*" 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required 
+                            />
                         </div>
-                        {/* <div className='input-group input-group-sm col-sm-12 mb-3'>
-                            <input type="text" className="form-control" placeholder="Username" ref={(c) => login = c}></input>
-                        </div> */}
                         <div className='input-group input-group-sm col-sm-12 mb-3'>
-                            <input type="password" className="form-control" placeholder="Password" ref={(c) => password = c}></input>
+                            <input 
+                                type="password" 
+                                className="form-control" 
+                                placeholder="Password*" 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required 
+                            />
+                        </div>
+                        <div className='row justify-content-end mb-3'>
+                            <div className='col-sm-6 justify-content-end text-end'>
+                                <span className="link-opacity-75-hover" id='forgot-pass-redirect'><a href='#' onClick={() => redirectTo('forgot-password')}>Forgot password?</a></span>
+                            </div>
+                        </div>
+                        <div className='row justify-content-center'>
+                            <div className='col-sm-12 mb-3'>
+                                <button type="submit" className="btn btn-primary" id='login-btn'>Log in</button>
+                            </div>
                         </div>
                     </form>
-                    <div className='row justify-content-end mb-3'>
-                        <div className='col-sm-6 justify-content-end text-end'>
-                            <span className="link-opacity-75-hover" id='forgot-pass-redirect'><a href='#' onClick={() => redirectTo('forgot-password')}>Forgot password?</a></span>
-                        </div>
-                    </div>
-                    <div className='row justify-content-center'>
-                        <div className='col-sm-12 mb-3'>
-                            <button type="submit" className="btn btn-primary" onClick={doSignUp} id='login-btn'>Log in</button>
-                        </div>
-                    </div>
                     <div className='row justify-content-center'>
                         <div className='col-sm'>
                             <span className="link-opacity-75-hover" id='signup-redirect'><p>Don't have an account? </p><a href='#' onClick={() => redirectTo('signup')}>Sign up.</a></span>
@@ -107,7 +123,9 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <span id="loginResult">{message}</span>
+            <div className='my-3' id='loginResult'>
+                <span>{message}</span>
+            </div>
         </div>
     );
 };
